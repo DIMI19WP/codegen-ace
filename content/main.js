@@ -1,7 +1,10 @@
 const editorElement = document.createElement("textarea");
 const editorStyle = document.createElement("style");
 editorStyle.append(
-    document.createTextNode(`.ace_editor {
+    document.createTextNode(`
+    @import url("//cdn.jsdelivr.net/gh/wan2land/d2coding/d2coding-ligature-full.css");
+
+    .ace_editor {
     height: 200px;
   }
   iframe#frame_source {

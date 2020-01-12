@@ -1,7 +1,10 @@
 {
-    "background": {
-        "scripts": ["background/main.js"]
-    },
+    "manifest_version": 2,
+
+    "name": "codegen_ace",
+    "description": "코드젠에 ACE 에디터를 적용합니다",
+    "version": "0.5",
+
     "content_scripts": [
         {
             "js": [
@@ -15,14 +18,6 @@
             "run_at": "document_end"
         }
     ],
-    "description": "코드젠에 ACE 에디터를 적용합니다",
-    "icons": {
-        "128": "icons/icon_128.png",
-        "16": "icons/icon_16.png"
-    },
-    "manifest_version": 2,
-    "name": "codegen_ace",
-    "permissions": ["contextMenus", "tabs", "http://*/*", "https://*/*"],
-    "version": "0.5",
+    "permissions": ["tabs", "http://*/*", "https://*/*"],
     "web_accessible_resources": ["content/*"]
 }

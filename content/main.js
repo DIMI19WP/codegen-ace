@@ -5,12 +5,21 @@ editorStyle.append(
 @import url("//cdn.jsdelivr.net/gh/wan2land/d2coding/d2coding-ligature-full.css");
 
 .ace_editor {
-    height: 200px;
+    height: 404px;
+    width: 816px;
     display: none;
+}
+#editor_alert {
+    font-size: 1.8drem;
 }`)
 )
 const rawEditor = document.getElementById('source')
-document.querySelector('#language+br').after(editorElement)
+const br = document.querySelector('#language+br')
+br.after(editorElement)
+const editorAlert = document.createElement('p')
+editorAlert.id = 'editor_alert'
+editorAlert.appendChild(document.createTextNode('ace 에디터를 사용하시려면 꼭 아래의 Toggle editor 버튼을 해제해주세요!'))
+br.after(editorAlert)
 document.body.append(editorStyle)
 const editor = ace.edit(editorElement)
 editor.setTheme('ace/theme/monokai')

@@ -26,7 +26,7 @@ editor.setTheme('ace/theme/monokai')
 editor.getSession().setMode('ace/mode/c_cpp')
 editor.getSession().on('change', () => (rawEditor.value = editor.getValue()))
 editor.setOptions({
-    fontFamily: 'D2Coding ligature',
+    fontFamily: "'D2Coding ligature', D2Coding, monospace",
     fontSize: '18px'
 })
 editor.setValue(`#include <stdio.h>

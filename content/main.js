@@ -25,10 +25,7 @@ editor.setOptions({
     fontFamily: "'D2Coding ligature', D2Coding, monospace",
     fontSize: '18px'
 })
-editor.setValue(`#include <stdio.h>
-int main() {
 
-}`)
 document.addEventListener('keyup', ({ key, ctrlKey }) => {
     if (key === 'F9') document.querySelector('#Submit').click()
 })
@@ -56,6 +53,14 @@ const off = setInterval(() => {
     document.getElementById('edit_area_toggle_checkbox_source').click()
     document.getElementById('edit_area_toggle_reg_syntax.js').style =
         'display: none;'
+    if (document.getElementById('source').innerText) {
+        editor.setValue(document.getElementById('source').innerText)
+    } else {
+        editor.setValue(`#include <stdio.h>
+int main() {
+
+}`)
+    }
     if (document.getElementById('edit_area_toggle_checkbox_source')) {
         clearInterval(off)
     }

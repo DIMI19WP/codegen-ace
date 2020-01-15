@@ -16,10 +16,6 @@ editorStyle.append(
 const rawEditor = document.getElementById('source')
 const br = document.querySelector('#language+br')
 br.after(editorElement)
-const editorAlert = document.createElement('p')
-editorAlert.id = 'editor_alert'
-editorAlert.appendChild(document.createTextNode('ace 에디터를 사용하시려면 꼭 아래의 Toggle editor 버튼을 해제해주세요!'))
-br.after(editorAlert)
 document.body.append(editorStyle)
 const editor = ace.edit(editorElement)
 editor.setTheme('ace/theme/monokai')
@@ -55,3 +51,12 @@ const loop = setInterval(() => {
         aceEditor.style.display = 'block'
     })
 }, 100)
+
+const off = setInterval(() => {
+    document.getElementById('edit_area_toggle_checkbox_source').click()
+    document.getElementById('edit_area_toggle_reg_syntax.js').style =
+        'display: none;'
+    if (document.getElementById('edit_area_toggle_checkbox_source')) {
+        clearInterval(off)
+    }
+}, 500)

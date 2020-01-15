@@ -15,6 +15,7 @@
                 "content/main.js"
             ],
             "matches": ["http://codegen.dimigo.hs.kr/submitpage.php?*"],
+            "css": ["content/custom.css"],
             "run_at": "document_end"
         }
     ],

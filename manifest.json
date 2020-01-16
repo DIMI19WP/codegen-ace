@@ -3,8 +3,10 @@
 
     "name": "codegen_ace",
     "description": "코드젠에 ACE 에디터를 적용합니다",
-    "version": "0.5",
-
+    "version": "1",
+    "icons": { "16": "icons/16.png",
+        "48": "icons/48.png",
+       "128": "icons/128.png" },
     "content_scripts": [
         {
             "js": [

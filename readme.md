@@ -1,4 +1,7 @@
-![banner](https://i.imgur.com/IdJjfSD.png)
+<p align="center">
+<img width="180px" src="https://i.imgur.com/MMPLU8B.png"/>
+</p>
+
 # Codegen Ace
 ![screenshot](https://i.imgur.com/q9AnYwE.png)
 코드젠의 editArea 에디터를 Ace 에디터로 바꾸어줍니다. 지원 글꼴: D2Coding Ligature, D2Coding, Monospace.

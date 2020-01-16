@@ -2,7 +2,8 @@
 코드젠의 editArea 에디터를 Ace 에디터로 바꾸어줍니다. 지원 글꼴: D2Coding Ligature, D2Coding, Monospace.
 
 # 사용 방법
-문제 풀이 화면에서 **Toggle editor**를 해제하시면 사용하실 수 있습니다.
+설치하시면 자동으로 적용이 됩니다.
+Space와 .키를 같이 누르면 추천 코드가 표시됩니다.
 F9를 누르시면 제출이 됩니다.
 
 # 설치 방법
@@ -14,7 +15,7 @@ F9를 누르시면 제출이 됩니다.
 6. 압축파일을 해제한 위치를 지정합니다.
 7. 상단에 표시한 지원글꼴이 설치되어있지 않다면 설치해주세요. **초심자는 D2Coding을**, 숙련자는 D2Coding Ligature를 추천드립니다. Monoscape는 Windows와 Mac의 기본 제공 폰트중 하나입니다.
 
-코드젠의 문제풀이 페이지에 갔을 때 `ace 에디터를 사용하시려면 꼭 아래의 Toggle editor 버튼을 해제해주세요!`라는 메시지가 나타나면 정상입니다. 나타나지 않는다면 [Issues](https://github.com/DIMI19WP/codegen-ace/issues)에서 제보해주세요.
+코드젠의 문제풀이 페이지에 갔을 때 변경된 에디터가 나타나지 않는다면 [Issues](https://github.com/DIMI19WP/codegen-ace/issues)에서 제보해주세요.
 
 원하시는 폰트가 있으시다면 하단의 "기여" 단락을 참고하여주세요.
 

@@ -1,67 +1,55 @@
-const editorElement = document.createElement('textarea')
-const editorStyle = document.createElement('style')
-editorStyle.append(
-    document.createTextNode(`
-@import url("//cdn.jsdelivr.net/gh/wan2land/d2coding/d2coding-ligature-full.css");
+const createElement = tagName => document.createElement(tagName);
+const id = _id => document.getElementById(_id);
+const querySelector = query => document.querySelector(query);
 
-.ace_editor {
-    height: 404px;
-    width: 816px;
-    display: none;
-}
-#editor_alert {
-    font-size: 1.8drem;
-}`)
-)
-const rawEditor = document.getElementById('source')
-const br = document.querySelector('#language+br')
-br.after(editorElement)
-document.body.append(editorStyle)
-const editor = ace.edit(editorElement)
-editor.setTheme('ace/theme/monokai')
-editor.getSession().setMode('ace/mode/c_cpp')
-editor.getSession().on('change', () => (rawEditor.value = editor.getValue()))
-editor.setOptions({
-    fontFamily: "'D2Coding ligature', D2Coding, monospace",
-    fontSize: '18px'
-})
+const ids = {
+    toggleButton: 'edit_area_toggle_checkbox_source',
+    suppertFonts: `'D2Coding ligature', D2Coding, monospace`
+};
 
-document.addEventListener('keyup', ({ key, ctrlKey }) => {
-    if (key === 'F9') document.querySelector('#Submit').click()
-})
-const loop = setInterval(() => {
-    const toggle = document.getElementById('edit_area_toggle_checkbox_source')
-    if (!toggle) return
-    let isLegacyEditor = true
-    const aceEditor = document.getElementsByClassName('ace_editor')[0]
-    const legacyEditor = document.getElementById('frame_source')
-    clearInterval(loop)
-    toggle.addEventListener('click', e => {
-        isLegacyEditor = !isLegacyEditor
-        rawEditor.style.display = 'none'
-        if (isLegacyEditor) {
-            legacyEditor.style.display = 'block'
-            aceEditor.style.display = 'none'
-            return
-        }
-        legacyEditor.style.display = 'none'
-        aceEditor.style.display = 'block'
-    })
-}, 100)
-
-const off = setInterval(() => {
-    document.getElementById('edit_area_toggle_checkbox_source').click()
-    document.getElementById('edit_area_toggle_reg_syntax.js').style =
-        'display: none;'
-    if (document.getElementById('source').innerText) {
-        editor.setValue(document.getElementById('source').innerText)
-    } else {
-        editor.setValue(`#include <stdio.h>
+const constants = {
+    INIT_STRING: `#include <stdio.h>
 int main() {
+    
+}`
+};
 
-}`)
+// creating textarea
+const rawEditor = id('source');
+const br = querySelector('#language+br');
+const editorElement = createElement('textarea');
+br.after(editorElement);
+
+// setting ace editor
+const editor = ace.edit(editorElement);
+// ace.require('ace/snippets/c_cpp')
+ace.require('ace/ext/language_tools');
+editor.setTheme('ace/theme/monokai');
+editor.getSession().setMode('ace/mode/c_cpp');
+editor.getSession().on('change', () => (rawEditor.value = editor.getValue()));
+editor.setOptions({
+    fontFamily: constants.suppertFonts,
+    fontSize: '18px',
+    enableSnippets: true,
+    enableBasicAutocompletion: true,
+    enableLiveAutocompletion: true
+});
+
+// setting keyshortcut
+document.addEventListener('keyup', ({ key }) => {
+    if (key === 'F9') querySelector('#Submit').click();
+});
+
+// Auto Enable Ace editor
+const off = setInterval(() => {
+    if (!(id('frame_source') && id('source'))) return;
+    clearInterval(off);
+
+    id(ids.toggleButton).click();
+    const beforeValue = id('source').value;
+    if (beforeValue) {
+        editor.setValue(beforeValue);
+    } else {
+        editor.setValue(constants.INIT_STRING);
     }
-    if (document.getElementById('edit_area_toggle_checkbox_source')) {
-        clearInterval(off)
-    }
-}, 500)
+}, 1000);

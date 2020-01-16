@@ -1,6 +1,10 @@
-# Codegen Ace
-코드젠의 editArea 에디터를 Ace 에디터로 바꾸어줍니다. 지원 글꼴: D2Coding Ligature, D2Coding, Monospace.
+<p align="center">
+<img width="180px" src="https://i.imgur.com/MMPLU8B.png"/>
+</p>
 
+# Codegen Ace
+![screenshot](https://i.imgur.com/q9AnYwE.png)
+코드젠의 editArea 에디터를 Ace 에디터로 바꾸어줍니다. 지원 글꼴: D2Coding Ligature, D2Coding, Monospace.
 # 사용 방법
 설치하시면 자동으로 적용이 됩니다.
 Space와 .키를 같이 누르면 추천 코드가 표시됩니다.
@@ -11,7 +15,9 @@ F9를 누르시면 제출이 됩니다.
 2. 적절한 위치에 압축을 해제합니다.
 3. Chrome을 설치합니다.
 4. **chrome://extensions/* 에서 오른쪽 위의 **개발자 모드**를 활성화합니다.
+![banner](https://i.imgur.com/xOTbIts.png)
 5. 왼쪽 위의 **압축해제된 확장 프로그램을 로드합니다.**를 클릭합니다
+![loadunzipped](https://i.imgur.com/FdS8gwf.png)
 6. 압축파일을 해제한 위치를 지정합니다.
 7. 상단에 표시한 지원글꼴이 설치되어있지 않다면 설치해주세요. **초심자는 D2Coding을**, 숙련자는 D2Coding Ligature를 추천드립니다. Monoscape는 Windows와 Mac의 기본 제공 폰트중 하나입니다.
 

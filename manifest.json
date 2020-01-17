@@ -11,7 +11,14 @@
     },
     "content_scripts": [
         {
-            "js": ["dist/main.js"],
+            "js": [
+                "components/ace-builds/src/ace.js",
+                "components/ace-builds/src/mode-c_cpp.js",
+                "components/ace-builds/src/snippets/c_cpp.js",
+                "components/ace-builds/src/theme-monokai.js",
+                "components/ace-builds/src/ext-language_tools.js",
+                "dist/main.js"
+            ],
             "matches": ["http://codegen.dimigo.hs.kr/submitpage.php?*"],
             "css": ["content/custom.css"],
             "run_at": "document_end"

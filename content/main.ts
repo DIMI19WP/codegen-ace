@@ -32,4 +32,5 @@ const off = setInterval(() => {
     }
 }, 1000);
 
+//set submit shortcut
 submitWith('F9');

@@ -9,7 +9,7 @@ export type Editor = {
     setTheme: (themeName: string) => void;
     getSession: () => {
         setMode: (mode: string) => void;
-        on: (event: string, action: (v) => void) => void;
+        on: (event: string, action: () => void) => void;
     };
     setOptions: (option: EditorOptions) => void;
     setValue: (value: string) => void;
@@ -17,4 +17,5 @@ export type Editor = {
 };
 export type Ace = {
     edit: (el: HTMLTextAreaElement) => Editor;
+    require: (path: string) => void;
 };

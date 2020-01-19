@@ -156,9 +156,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function (element, syncElement, config) {
-  var editor = window.ace.edit(element);
+  var ace = window.ace;
+  var editor = ace.edit(element);
 
-  window.ace.require('ace/ext/language_tools');
+  ace.require('ace/ext/language_tools');
 
   editor.setTheme('ace/theme/monokai');
   editor.getSession().setMode('ace/mode/c_cpp');

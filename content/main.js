@@ -67,6 +67,7 @@ const isCurrentLangC = () => {
 const onRunMinify = () => {
     if (!isCurrentLangC()) {
         alert('현재는 C/C++만 지원합니다.');
+        return;
     }
 
     const currentLines = editor.getValue().split('\n').map((line) => {

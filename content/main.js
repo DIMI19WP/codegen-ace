@@ -37,6 +37,7 @@ editor.setOptions({
 
 // setting keyshortcut
 document.addEventListener('keyup', ({ key }) => {
+    if (key == 'F8') onRunMinify();
     if (key === 'F9') querySelector('#Submit').click();
 });
 
@@ -53,3 +54,44 @@ const off = setInterval(() => {
         editor.setValue(constants.INIT_STRING);
     }
 }, 1000);
+
+// returns true if current language is selected to C/C++, else false
+const isCurrentLangC = () => {
+    const languageElement = document.querySelector('#language');
+
+    // parseInt is way faster then toString
+    return [0, 1].includes(parseInt(languageElement.value));
+};
+
+// Minify current code
+const onRunMinify = () => {
+    if (!isCurrentLangC()) {
+        alert('현재는 C/C++만 지원합니다.');
+    }
+
+    const currentLines = editor.getValue().split('\n').map((line) => {
+        // minify code like `for(i=1; i<=5; i++)` to `for(i=1;i<=5;i++)`
+        const chuncks = line.split(';');
+
+        // strip for wrapping whitespace
+        return chuncks.map(v => v.trim()).join(';').trim();
+    });
+
+    // split current lines of code
+    const getSplitCode = (lines) => {
+        return lines.reduce(
+            (result, line) => {
+                // check for preprocessors
+                line.startsWith('#')
+                    ? result[0].push(line)
+                    : result[1].push(line);
+                return result;
+            },
+            [[], []],
+        );
+    };
+
+    const [preprocessors, otherCode] = getSplitCode(currentLines);
+    const result = `${preprocessors.join('\n')}\n${otherCode.join('')}`;
+    editor.setValue(result);
+};

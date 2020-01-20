@@ -70,11 +70,10 @@ const onRunMinify = () => {
     }
 
     const currentLines = editor.getValue().split('\n').map((line) => {
-        // minify code like `for(i=1; i<=5; i++)` to `for(i=1;i<=5;i++)`
-        const chuncks = line.split(';');
-
-        // strip for wrapping whitespace
-        return chuncks.map(v => v.trim()).join(';').trim();
+        // minify code like `for(i = 1; i<=5; i++) {` to `for(i=1;i<=5;i++){`
+        return line
+            .replace(/([ \t]+(?=[,;=(){}]))|(?<=([,;=(){}]))[ \t]/g, '')
+            .trim();
     });
 
     // split current lines of code

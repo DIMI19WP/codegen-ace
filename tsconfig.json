@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "esModuleInterop": true,
-        "strict": true
+        "strict": true,
+        "lib": ["DOM", "ES2016"]
     }
 }

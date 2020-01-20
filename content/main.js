@@ -37,7 +37,7 @@ editor.setOptions({
 
 // setting keyshortcut
 document.addEventListener('keyup', ({ key }) => {
-    if (key == 'F8') onRunMinify();
+    if (key === 'F8') onRunMinify();
     if (key === 'F9') querySelector('#Submit').click();
 });
 
@@ -63,7 +63,7 @@ const isCurrentLangC = () => {
     return [0, 1].includes(parseInt(languageElement.value));
 };
 
-// Minify current code
+// minify current code
 const onRunMinify = () => {
     if (!isCurrentLangC()) {
         alert('현재는 C/C++만 지원합니다.');

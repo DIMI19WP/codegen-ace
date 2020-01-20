@@ -24,6 +24,9 @@
             "run_at": "document_end"
         }
     ],
-    "permissions": ["tabs", "http://*/*", "https://*/*"],
+    "browser_action": {
+        "default_popup": "./popup/index.html"
+    },
+    "permissions": ["tabs", "http://*/*", "https://*/*", "storage"],
     "web_accessible_resources": ["content/*"]
 }

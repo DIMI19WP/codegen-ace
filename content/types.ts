@@ -4,6 +4,7 @@ export type EditorOptions = {
     enableSnippets?: boolean;
     enableBasicAutocompletion?: boolean;
     enableLiveAutocompletion?: boolean;
+    theme: string;
 };
 export type Editor = {
     setTheme: (themeName: string) => void;

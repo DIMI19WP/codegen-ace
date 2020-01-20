@@ -184,8 +184,34 @@ exports.default = function (trigger) {
     if (key === trigger) utils_1.querySelector('#Submit').click();
   });
 };
-},{"./utils":"utils.ts"}],"main.ts":[function(require,module,exports) {
+},{"./utils":"utils.ts"}],"getProblemInformation.ts":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  return '';
+};
+},{}],"main.ts":[function(require,module,exports) {
+"use strict";
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -203,36 +229,66 @@ var constants_1 = __importDefault(require("./constants"));
 
 var createEditor_1 = __importDefault(require("./createEditor"));
 
-var addKeyShortcut_1 = __importDefault(require("./addKeyShortcut")); // declaring basic elements from exist DOM
+var addKeyShortcut_1 = __importDefault(require("./addKeyShortcut"));
 
+var getProblemInformation_1 = __importDefault(require("./getProblemInformation"));
 
-var rawEditor = utils_1.id('source');
-var br = utils_1.querySelector('#language+br'); // setting ace editor
+chrome.storage.sync.get('codegen-ace', function (_a) {
+  var _config = _a["codegen-ace"];
+  var config = JSON.parse(_config);
+  if (!config.enable) return;
+  document.body.classList.add('ace'); // declaring basic elements from exist DOM
 
-var editorElement = utils_1.createElement('textarea');
-br.after(editorElement);
-var editor = createEditor_1.default(editorElement, rawEditor, {
-  fontFamily: constants_1.default.supportFonts,
-  fontSize: '18px',
-  enableSnippets: true,
-  enableBasicAutocompletion: true,
-  enableLiveAutocompletion: true
+  var rawEditor = utils_1.id('source');
+  var br = utils_1.querySelector('#language+br'); // setting ace editor
+
+  var editorElement = utils_1.createElement('textarea');
+  br.after(editorElement);
+  var fontSize = config["font-size"],
+      theme = config.theme,
+      fontFamily = config["font-family"],
+      custom = config.custom;
+  console.log(__assign(__assign({
+    fontFamily: constants_1.default.supportFonts,
+    fontSize: '18px',
+    enableSnippets: true,
+    enableBasicAutocompletion: true,
+    enableLiveAutocompletion: true
+  }, {
+    fontFamily: fontFamily,
+    fontSize: fontSize + "px",
+    theme: theme
+  }), config.custom));
+  var editor = createEditor_1.default(editorElement, rawEditor, __assign(__assign({
+    fontFamily: constants_1.default.supportFonts,
+    fontSize: '18px',
+    enableSnippets: true,
+    enableBasicAutocompletion: true,
+    enableLiveAutocompletion: true
+  }, {
+    fontFamily: fontFamily,
+    fontSize: fontSize + "px",
+    theme: theme
+  }), config.custom));
+  var off = setInterval(function () {
+    if (!(utils_1.id('frame_source') && utils_1.id('source'))) return;
+    clearInterval(off);
+    utils_1.id(constants_1.default.id.toggleButton).click();
+    var beforeValue = utils_1.id('source').value;
+
+    if (beforeValue) {
+      editor.setValue(beforeValue);
+    } else {
+      editor.setValue(constants_1.default.INIT_STRING);
+    }
+  }, 1000);
 }); // Auto Enable Ace editor
+//set submit shortcut
 
-var off = setInterval(function () {
-  if (!(utils_1.id('frame_source') && utils_1.id('source'))) return;
-  clearInterval(off);
-  utils_1.id(constants_1.default.id.toggleButton).click();
-  var beforeValue = utils_1.id('source').value;
+addKeyShortcut_1.default('F9'); // get problem information from before page
 
-  if (beforeValue) {
-    editor.setValue(beforeValue);
-  } else {
-    editor.setValue(constants_1.default.INIT_STRING);
-  }
-}, 1000);
-addKeyShortcut_1.default('F9');
-},{"./utils":"utils.ts","./constants":"constants.ts","./createEditor":"createEditor.ts","./addKeyShortcut":"addKeyShortcut.ts"}],"C:/Users/react/AppData/Roaming/npm/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+console.log(getProblemInformation_1.default(), 'djdjdjdj');
+},{"./utils":"utils.ts","./constants":"constants.ts","./createEditor":"createEditor.ts","./addKeyShortcut":"addKeyShortcut.ts","./getProblemInformation":"getProblemInformation.ts"}],"C:/Users/react/AppData/Roaming/npm/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -260,7 +316,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62835" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60635" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+        <style>
+            label:not(:last-of-type) {
+                display: block;
+                margin-bottom: 10px;
+                font-size: 1.1rem;
+                font-weight: 900;
+            }
+            label input:not([type='checkbox']),
+            select {
+                display: block;
+                width: 100%;
+                margin-top: 3px;
+            }
+            img {
+                display: block;
+                width: 160px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <img src="https://i.imgur.com/MMPLU8B.png" />
+        <label>
+            활성화
+            <input type="checkbox" id="enable" />
+        </label>
+        <label>
+            테마
+            <select id="theme">
+                <option value="monokai">monokai</option>
+                <option value="solaris">solaris</option>
+            </select>
+        </label>
+        <label>
+            글꼴
+            <input type="text" id="font-family" />
+        </label>
+        <label>
+            글자 크기
+            <input type="number" id="font-size" value="18" />
+        </label>
+        <label> 고급 <input type="checkbox" id="advanced" /> </label>
+        <textarea
+            placeholder="커스텀 config"
+            id="custom"
+            cols="30"
+            rows="10"
+        ></textarea>
+        <a href="https://github.com/ajaxorg/ace/wiki/Configuring-Ace"
+            >설정 안내</a
+        >
+        <script src="./script.js">
+        </script>
+    </body>
+</html>

@@ -6,6 +6,7 @@ export type EditorOptions = {
     enableLiveAutocompletion?: boolean;
     theme: string;
 };
+
 export type Editor = {
     setTheme: (themeName: string) => void;
     getSession: () => {
@@ -16,7 +17,12 @@ export type Editor = {
     setValue: (value: string) => void;
     getValue: () => string;
 };
+
 export type Ace = {
     edit: (el: HTMLTextAreaElement) => Editor;
     require: (path: string) => void;
+};
+
+export type Storage = {
+    'codegen-ace': string;
 };

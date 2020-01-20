@@ -1,10 +1,13 @@
 import { createElement, id, querySelector } from './utils';
 import constants from './constants';
 import createEditor from './createEditor';
-import submitWith from './addKeyShortcut';
+import { submitWith, minifyWith } from './shortcuts';
 import getProblemInformation from './getProblemInformation';
+import { Storage } from './types';
 
-chrome.storage.sync.get('codegen-ace', ({ 'codegen-ace': _config }) => {
+declare const chrome: any;
+
+chrome.storage.sync.get('codegen-ace', ({ 'codegen-ace': _config }: Storage) => {
     const config = JSON.parse(_config);
     if (!config.enable) return;
 
@@ -30,7 +33,8 @@ chrome.storage.sync.get('codegen-ace', ({ 'codegen-ace': _config }) => {
             theme,
         }),
         ...(config.custom),
-    })
+    });
+
     const editor = createEditor(editorElement, rawEditor, {
         fontFamily: constants.supportFonts,
         fontSize:  '18px',
@@ -57,11 +61,13 @@ chrome.storage.sync.get('codegen-ace', ({ 'codegen-ace': _config }) => {
             editor.setValue(constants.INIT_STRING);
         }
     }, 1000);
+
+    minifyWith('F8', editor);
 });
 
 // Auto Enable Ace editor
 
-//set submit shortcut
+// set submit shortcut
 submitWith('F9');
 
 // get problem information from before page

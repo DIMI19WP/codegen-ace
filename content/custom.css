@@ -1,20 +1,20 @@
 @import url("//cdn.jsdelivr.net/gh/wan2land/d2coding/d2coding-ligature-full.css");
 
-.ace_editor {
+.ace .ace_editor {
     height: 404px;
     width: 816px;
 }
-#editor_alert {
+.ace #editor_alert {
     font-size: 1.8drem;
 }
-.ace_content {
+.ace .ace_content {
     text-align: left !important;
 }
 
-.ace_editor {
+.ace .ace_editor {
     max-width: 100%;
 }
 
-#source, #frame_source, #EditAreaArroundInfos_source {
+.ace #source, .ace #frame_source, .ace #EditAreaArroundInfos_source {
     display: none !important;
 }

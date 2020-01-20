@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@types/chrome": "0.0.91",
+    "ace-builds": "^1.4.8"
+  }
+}

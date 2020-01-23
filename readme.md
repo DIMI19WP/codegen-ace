@@ -13,7 +13,7 @@
 - `F9`를 누르시면 제출이 됩니다.
 
 # 설치 방법
-1. 오른쪽의 초록색 **Clone or download**버튼을 누르고 Download ZIP을 클릭합니다.
+1. ![Release](https://github.com/DIMI19WP/codegen-ace/releases)페이지에서 최신 버전을 다운로드합니다.
 2. 적절한 위치에 압축을 해제합니다.
 3. Chrome을 설치합니다.
 4. **chrome://extensions/** 에서 오른쪽 위의 **개발자 모드** 를 활성화합니다.

@@ -3,3 +3,4 @@ node_modules
 .prettierrc
 build
 build.zip
+dist

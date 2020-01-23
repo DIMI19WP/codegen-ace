@@ -135,6 +135,13 @@ exports.id = function (_id) {
 exports.querySelector = function (query) {
   return document.querySelector(query);
 };
+
+exports.addKeyboardShortcut = function (trigger, callback) {
+  document.addEventListener('keyup', function (_a) {
+    var key = _a.key;
+    if (key === trigger) callback();
+  });
+};
 },{}],"constants.ts":[function(require,module,exports) {
 "use strict";
 
@@ -161,7 +168,7 @@ exports.default = function (element, syncElement, config) {
 
   ace.require('ace/ext/language_tools');
 
-  editor.setTheme('ace/theme/monokai');
+  editor.setTheme("ace/theme/" + config.theme);
   editor.getSession().setMode('ace/mode/c_cpp');
   editor.getSession().on('change', function () {
     return syncElement.value = editor.getValue();
@@ -169,30 +176,247 @@ exports.default = function (element, syncElement, config) {
   editor.setOptions(config);
   return editor;
 };
-},{}],"addKeyShortcut.ts":[function(require,module,exports) {
+},{}],"minify.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var utils_1 = require("./utils"); // returns true if current language is selected to C/C++, else false
+
+
+var isCurrentLangC = function isCurrentLangC() {
+  var languageElement = utils_1.querySelector('#language'); // parseInt is way faster then toString
+
+  return [0, 1].includes(parseInt(languageElement.value));
+}; // minify current code
+
+
+exports.onRunMinify = function (editor) {
+  if (!isCurrentLangC()) {
+    alert('현재는 C/C++만 지원합니다.');
+    return;
+  }
+
+  var currentLines = editor.getValue().split('\n').map(function (line) {
+    // minify code like `for(i = 1; i<=5; i++) {` to `for(i=1;i<=5;i++){`
+    return line.replace(/([ \t]+(?=[,;=(){}]))|(?<=([,;=(){}]))[ \t]/g, '').trim();
+  }); // split current lines of code
+
+  var getSplitCode = function getSplitCode(lines) {
+    return lines.reduce(function (result, line) {
+      // check for preprocessors
+      line.startsWith('#') ? result[0].push(line) : result[1].push(line);
+      return result;
+    }, [[], []]);
+  };
+
+  var _a = getSplitCode(currentLines),
+      preprocessors = _a[0],
+      otherCode = _a[1];
+
+  var result = preprocessors.join('\n') + "\n" + otherCode.join('');
+  editor.setValue(result);
+};
+},{"./utils":"utils.ts"}],"shortcuts.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var minify_1 = require("./minify");
+
 var utils_1 = require("./utils");
 
-exports.default = function (trigger) {
-  document.addEventListener('keyup', function (_a) {
-    var key = _a.key;
-    if (key === trigger) utils_1.querySelector('#Submit').click();
+exports.submitWith = function (trigger) {
+  utils_1.addKeyboardShortcut(trigger, utils_1.querySelector('#Submit').click);
+};
+
+exports.minifyWith = function (trigger, editor) {
+  utils_1.addKeyboardShortcut(trigger, function () {
+    return minify_1.onRunMinify(editor);
   });
 };
-},{"./utils":"utils.ts"}],"getProblemInformation.ts":[function(require,module,exports) {
+},{"./minify":"minify.ts","./utils":"utils.ts"}],"getProblemInformation.ts":[function(require,module,exports) {
 "use strict";
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
 exports.default = function () {
-  return '';
+  return __awaiter(void 0, void 0, void 0, function () {
+    var infoPage, _a, _b, infoElement;
+
+    var _c;
+
+    return __generator(this, function (_d) {
+      switch (_d.label) {
+        case 0:
+          _b = (_a = new DOMParser()).parseFromString;
+          return [4
+          /*yield*/
+          , fetch(location.href.replace('submitpage', 'problem'))];
+
+        case 1:
+          return [4
+          /*yield*/
+          , _d.sent().text()];
+
+        case 2:
+          infoPage = _b.apply(_a, [_d.sent(), 'text/html']);
+          infoElement = infoPage.querySelector('body > div > div > div:nth-child(4)');
+          return [2
+          /*return*/
+          , (_c = infoElement) === null || _c === void 0 ? void 0 : _c.innerText];
+      }
+    });
+  });
 };
 },{}],"main.ts":[function(require,module,exports) {
 "use strict";
@@ -229,13 +453,27 @@ var constants_1 = __importDefault(require("./constants"));
 
 var createEditor_1 = __importDefault(require("./createEditor"));
 
-var addKeyShortcut_1 = __importDefault(require("./addKeyShortcut"));
+var shortcuts_1 = require("./shortcuts");
 
 var getProblemInformation_1 = __importDefault(require("./getProblemInformation"));
 
 chrome.storage.sync.get('codegen-ace', function (_a) {
   var _config = _a["codegen-ace"];
-  var config = JSON.parse(_config);
+
+  var config = function () {
+    try {
+      return JSON.parse(_config);
+    } catch (_) {
+      return {
+        enable: true,
+        theme: 'ace/theme/monokai',
+        'font-family': '',
+        'font-size': 18,
+        custom: ''
+      };
+    }
+  }();
+
   if (!config.enable) return;
   document.body.classList.add('ace'); // declaring basic elements from exist DOM
 
@@ -247,18 +485,11 @@ chrome.storage.sync.get('codegen-ace', function (_a) {
   var fontSize = config["font-size"],
       theme = config.theme,
       fontFamily = config["font-family"],
-      custom = config.custom;
-  console.log(__assign(__assign({
-    fontFamily: constants_1.default.supportFonts,
-    fontSize: '18px',
-    enableSnippets: true,
-    enableBasicAutocompletion: true,
-    enableLiveAutocompletion: true
-  }, {
-    fontFamily: fontFamily,
-    fontSize: fontSize + "px",
-    theme: theme
-  }), config.custom));
+      custom = config.custom,
+      width = config["editor-width"],
+      height = config["editor-height"],
+      autoinject = config.autoinject;
+  console.log(config);
   var editor = createEditor_1.default(editorElement, rawEditor, __assign(__assign({
     fontFamily: constants_1.default.supportFonts,
     fontSize: '18px',
@@ -269,7 +500,16 @@ chrome.storage.sync.get('codegen-ace', function (_a) {
     fontFamily: fontFamily,
     fontSize: fontSize + "px",
     theme: theme
-  }), config.custom));
+  }), custom && JSON.parse(custom))); // append custom style
+
+  var customStyles = document.createElement('style');
+  customStyles.appendChild(document.createTextNode("\n            .ace .ace_editor {\n                height: " + height + "px;\n                width: " + width + "px;\n            }\n            "));
+  document.body.append(customStyles); // display problem information
+
+  getProblemInformation_1.default().then(function (info) {
+    if (!info) return;
+    br.after(document.createTextNode(info));
+  });
   var off = setInterval(function () {
     if (!(utils_1.id('frame_source') && utils_1.id('source'))) return;
     clearInterval(off);
@@ -278,17 +518,16 @@ chrome.storage.sync.get('codegen-ace', function (_a) {
 
     if (beforeValue) {
       editor.setValue(beforeValue);
-    } else {
+    } else if (autoinject) {
       editor.setValue(constants_1.default.INIT_STRING);
     }
   }, 1000);
+  shortcuts_1.minifyWith('F8', editor);
 }); // Auto Enable Ace editor
-//set submit shortcut
+// set submit shortcut
 
-addKeyShortcut_1.default('F9'); // get problem information from before page
-
-console.log(getProblemInformation_1.default(), 'djdjdjdj');
-},{"./utils":"utils.ts","./constants":"constants.ts","./createEditor":"createEditor.ts","./addKeyShortcut":"addKeyShortcut.ts","./getProblemInformation":"getProblemInformation.ts"}],"C:/Users/react/AppData/Roaming/npm/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+shortcuts_1.submitWith('F9'); // get problem information from before page
+},{"./utils":"utils.ts","./constants":"constants.ts","./createEditor":"createEditor.ts","./shortcuts":"shortcuts.ts","./getProblemInformation":"getProblemInformation.ts"}],"C:/Users/react/AppData/Roaming/npm/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -316,7 +555,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60635" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64734" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

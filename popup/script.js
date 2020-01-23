@@ -10,29 +10,55 @@ function render() {
             setConfig({
                 enable: true,
                 theme: 'monokai',
-                'font-family': '',
+                'font-family': undefined,
                 'font-size': 18,
-                custom: ''
+                custom: undefined,
+                autoinject: true,
+                'editor-width': undefined,
+                'editor-height': undefined
             });
             return;
         }
-        Object.keys(config).forEach(
-            key => {
-              if(key === 'enable') document.getElementById(key).checked = config[key]
-              document.getElementById(key).value = config[key]
+        Object.keys(config).forEach(key => {
+            if (typeof config[key] === 'boolean') {
+                console.log(document.getElementById(key), key)
+                document.getElementById(key).checked = config[key];
+                return;
             }
-        );
+            document.getElementById(key).value = config[key];
+        });
         console.log(config);
         globalconfig = config;
     });
 }
-['enable', 'theme', 'font-family', 'font-size', 'custom'].forEach(id => {
-    document
-        .getElementById(id)
-        .addEventListener('change', ({ target }) => {
-            if(id === 'enable') globalconfig[id] = target.checked
-            else globalconfig[id] = target.value
-            setConfig(globalconfig);
-        });
+[
+    'enable',
+    'theme',
+    'font-family',
+    'font-size',
+    'custom',
+    'autoinject',
+    'editor-width',
+    'editor-height'
+].forEach(id => {
+    document.getElementById(id).addEventListener('change', ({ target }) => {
+        if (target.type === 'checkbox') globalconfig[id] = target.checked;
+        else globalconfig[id] = target.value;
+        setConfig(globalconfig);
+    });
 });
 render();
+document
+    .getElementById('advanced')
+    .addEventListener(
+        'click',
+        () =>
+            (document.getElementById(
+                'customcon'
+            ).style.display = document.getElementById('advanced').checked
+                ? 'block'
+                : 'none')
+    );
+[...document.getElementsByTagName('a')].forEach(el =>
+    el.addEventListener('click', () => chrome.tabs.create({ url: el.href }))
+);

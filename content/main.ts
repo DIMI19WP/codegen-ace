@@ -7,63 +7,91 @@ import { Storage } from './types';
 
 declare const chrome: any;
 
-chrome.storage.sync.get('codegen-ace', ({ 'codegen-ace': _config }: Storage) => {
-    const config = JSON.parse(_config);
-    if (!config.enable) return;
+chrome.storage.sync.get(
+    'codegen-ace',
+    ({ 'codegen-ace': _config }: Storage) => {
+        const config = (() => {
+            try {
+                return JSON.parse(_config);
+            } catch (_) {
+                return {
+                    enable: true,
+                    theme: 'ace/theme/monokai',
+                    'font-family': '',
+                    'font-size': 18,
+                    custom: ''
+                };
+            }
+        })();
+        if (!config.enable) return;
 
-    document.body.classList.add('ace')
-    // declaring basic elements from exist DOM
-    const rawEditor = id<HTMLTextAreaElement>('source');
-    const br = querySelector<HTMLBRElement>('#language+br');
+        document.body.classList.add('ace');
+        // declaring basic elements from exist DOM
+        const rawEditor = id<HTMLTextAreaElement>('source');
+        const br = querySelector<HTMLBRElement>('#language+br');
 
-    // setting ace editor
-    const editorElement = createElement('textarea');
-    br.after(editorElement);
+        // setting ace editor
+        const editorElement = createElement('textarea');
+        br.after(editorElement);
 
-    const {'font-size': fontSize, theme, 'font-family': fontFamily, custom} = config
-    console.log({
-        fontFamily: constants.supportFonts,
-        fontSize:  '18px',
-        enableSnippets: true,
-        enableBasicAutocompletion: true,
-        enableLiveAutocompletion: true,
-        ...({
-            fontFamily,
-            fontSize: `${fontSize}px`,
+        const {
+            'font-size': fontSize,
             theme,
-        }),
-        ...(config.custom),
-    });
+            'font-family': fontFamily,
+            custom,
+            'editor-width': width,
+            'editor-height': height,
+            autoinject
+        } = config;
+        console.log(config);
+        const editor = createEditor(editorElement, rawEditor, {
+            fontFamily: constants.supportFonts,
+            fontSize: '18px',
+            enableSnippets: true,
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true,
+            ...{
+                fontFamily,
+                fontSize: `${fontSize}px`,
+                theme
+            },
+            ...(custom && JSON.parse(custom))
+        });
 
-    const editor = createEditor(editorElement, rawEditor, {
-        fontFamily: constants.supportFonts,
-        fontSize:  '18px',
-        enableSnippets: true,
-        enableBasicAutocompletion: true,
-        enableLiveAutocompletion: true,
-        ...({
-            fontFamily,
-            fontSize: `${fontSize}px`,
-            theme,
-        }),
-        ...(config.custom),
-    });
+        // append custom style
+        const customStyles = document.createElement('style');
+        customStyles.appendChild(
+            document.createTextNode(`
+            .ace .ace_editor {
+                height: ${height}px;
+                width: ${width}px;
+            }
+            `)
+        );
+        document.body.append(customStyles);
 
-    const off = setInterval(() => {
-        if (!(id('frame_source') && id('source'))) return;
-        clearInterval(off);
+        // display problem information
+        getProblemInformation().then(info => {
+            if(!info) return
+            br.after(document.createTextNode(info))
+        })
 
-        id<HTMLInputElement>(constants.id.toggleButton).click();
-        const beforeValue = id<HTMLTextAreaElement>('source').value;
-        if (beforeValue) {
-            editor.setValue(beforeValue);
-        } else {
-            editor.setValue(constants.INIT_STRING);
-        }
-    }, 1000);
+        const off = setInterval(() => {
+            if (!(id('frame_source') && id('source'))) return;
+            clearInterval(off);
 
-    minifyWith('F8', editor);
-});
+            id<HTMLInputElement>(constants.id.toggleButton).click();
+            const beforeValue = id<HTMLTextAreaElement>('source').value;
+            if (beforeValue) {
+                editor.setValue(beforeValue);
+            } else if (autoinject) {
+                editor.setValue(constants.INIT_STRING);
+            }
+        }, 1000);
+
+        minifyWith('F8', editor);
+    }
+);
 
 // Auto Enable Ace editor
 
@@ -71,4 +99,3 @@ chrome.storage.sync.get('codegen-ace', ({ 'codegen-ace': _config }: Storage) => 
 submitWith('F9');
 
 // get problem information from before page
-console.log(getProblemInformation(), 'djdjdjdj');

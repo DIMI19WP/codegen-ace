@@ -20,7 +20,7 @@
                 "dist/main.js"
             ],
             "matches": ["http://codegen.dimigo.hs.kr/submitpage.php?*"],
-            "css": ["content/custom.css"],
+            "css": ["components/custom.css"],
             "run_at": "document_end"
         }
     ],

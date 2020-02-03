@@ -97,5 +97,3 @@ chrome.storage.sync.get(
 
 // set submit shortcut
 submitWith('F9');
-
-// get problem information from before page

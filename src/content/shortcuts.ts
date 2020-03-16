@@ -5,7 +5,7 @@ import { addKeyboardShortcut, querySelector } from './utils';
 export const submitWith = (trigger: string) => {
     addKeyboardShortcut(
         trigger,
-        querySelector<HTMLInputElement>('#Submit').click,
+        () => querySelector<HTMLInputElement>('#Submit').click(),
     );
 };
 

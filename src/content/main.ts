@@ -10,19 +10,10 @@ declare const chrome: any;
 chrome.storage.sync.get(
     'codegen-ace',
     ({ 'codegen-ace': _config }: Storage) => {
-        const config = (() => {
-            try {
-                return JSON.parse(_config);
-            } catch (_) {
-                return {
-                    enable: true,
-                    theme: 'ace/theme/monokai',
-                    'font-family': '',
-                    'font-size': 18,
-                    custom: ''
-                };
-            }
-        })();
+        console.log(_config);
+        if(!_config) return;
+        
+        const config = JSON.parse(_config);
         if (!config.enable) return;
 
         document.body.classList.add('ace');
